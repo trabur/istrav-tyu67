@@ -201,7 +201,7 @@ Game.reset = function (game) {
   })[0];
 
   game.player = player = Puppet.init(player);
-  World.addComposite(world, player);
+  World.addBody(world, player);
 
   console.log(player);
 
@@ -221,7 +221,7 @@ Game.reset = function (game) {
       // }
 
       var puppet = Puppet.init(participant);
-      World.addComposite(world, puppet);
+      World.addBody(world, puppet);
     }
   });
 
@@ -245,7 +245,7 @@ Game.reset = function (game) {
         x: game.render.options.width * 0.5,
         y: game.render.options.height * 0.5
       },
-      pointB: game.player.bodies[0].position,
+      pointB: game.player.position,
       render: {
         visible: false
       }

@@ -66,21 +66,21 @@ TYU67.arena = function (game) {
         // console.log("tick");
 
         // player rotation
-        Body.setAngle(player.bodies[0], player.rotation + (Math.PI/180) * 90);
+        Body.setAngle(player.parts[0], player.rotation + (Math.PI/180) * 90);
 
         // player movement
         Body.applyForce(
-          player.bodies[0],
-          player.bodies[0].position,
+          player.parts[0],
+          player.parts[0].position,
           (function () {
             var move = player.movement;
             var x = 0;
             var y = 0;
 
-            if (move.up) y += -0.005;
-            if (move.left) x += -0.005;
-            if (move.down) y += 0.005;
-            if (move.right) x += 0.005;
+            if (move.up) y += -0.001;
+            if (move.left) x += -0.001;
+            if (move.down) y += 0.001;
+            if (move.right) x += 0.001;
 
             return Vector.create(x, y);
           })()
@@ -93,17 +93,24 @@ TYU67.arena = function (game) {
             playerConstraint.pointB.y,
             10, // radius
             {
+              collisionFilter: {
+                group: player.tyu67.teamId
+              },
               frictionAir: 0,
               force: Vector.rotate(
                 {
                   x: 0.0,
                   y: 0.02 // bullet speed
                 },
-                player.bodies[0].angle
+                player.parts[0].angle
               )
             }
           );
           World.addBody(world, bullet);
+          // remove bullets after 1 second
+          setTimeout(() => {
+            World.remove(world, bullet)
+          }, 1000)
         }
 
     }),

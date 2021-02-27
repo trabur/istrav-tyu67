@@ -1,15 +1,27 @@
-var Composites = Matter.Composites;
+// var Composites = Matter.Composites;
 var Common = Matter.Common;
+var Bodies = Matter.Bodies
 
 let Puppet = {}
 
 Puppet.init = function (options) {
-  var puppet = Composites.car(
-    options.position.x, // xx
-    options.position.y, // yy
-    100, // width
-    50, // height
-    50 // wheelsize
+  // var puppet = Composites.car(
+  //   options.position.x, // xx
+  //   options.position.y, // yy
+  //   100, // width
+  //   50, // height
+  //   50 // wheelsize
+  // );
+
+  var puppet = Bodies.circle(
+    options.position.x,
+    options.position.y,
+    30, // radius
+    {
+      collisionFilter: {
+        group: options.teamId
+      }
+    }
   );
 
   puppet.tyu67 = options;
