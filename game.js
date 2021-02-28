@@ -19,6 +19,20 @@ Game.create = function (id) {
     sceneEvents: []
   };
 
+  // teams
+  let redTeam = 0x0001
+  let blueTeam = 0x0002
+  // let greenTeam = 0x0004
+  // let purpleTeam = 0x0005
+  // let orangeTeam = 0x0006
+  // let yellowTeam = 0x0008
+  let redColor = '#ff0000'
+  let blueColor = '#0000ff'
+  // let greenColor = ''
+  // let purpleColor = ''
+  // let orangeColor = ''
+  // let yellowColor = ''
+
   // TODO: grab game from server based on id arguement
   var game = {
     session: {
@@ -31,20 +45,26 @@ Game.create = function (id) {
       participants: [
         {
           id: 1,
-          name: "hillary",
-          teamId: 2,
+          name: "alice",
+          attackId: blueTeam,
+          defendId: redTeam,
+          color: redColor,
           position: {x: 200, y: 100} // from the top left pixel of the viewport
         },
         {
           id: 2,
-          name: "trump",
-          teamId: 1,
+          name: "bob",
+          attackId: blueTeam,
+          defendId: redTeam,
+          color: redColor,
           position: {x: 400, y: 400}
         },
         {
           id: 3,
-          name: "sanders",
-          teamId: 2,
+          name: "carl",
+          attackId: redTeam,
+          defendId: blueTeam,
+          color: blueColor,
           position: {x: 600, y: 600}
         }
       ]
@@ -174,12 +194,20 @@ Game.reset = function (game) {
   /**
    * resources
    */
+
+  let opts = {
+    isStatic: true,
+    render: {
+      fillStyle: '#000',
+      lineWidth: 0
+    }
+  }
   var offset = 500;
   World.add(world, [
-    Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 50.5, { isStatic: true }),
-    Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 50.5, { isStatic: true }),
-    Bodies.rectangle(800 + offset, 300, 50.5, 600.5 + 2 * offset, { isStatic: true }),
-    Bodies.rectangle(-offset, 300, 50.5, 600.5 + 2 * offset, { isStatic: true })
+    Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 50.5, opts),
+    Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 50.5, opts),
+    Bodies.rectangle(800 + offset, 300, 50.5, 600.5 + 2 * offset, opts),
+    Bodies.rectangle(-offset, 300, 50.5, 600.5 + 2 * offset, opts)
   ]);
 
   // World.addComposite(
@@ -267,23 +295,23 @@ Game.reset = function (game) {
    */
   if (game.render) {
     var renderOptions = game.render.options;
-    renderOptions.wireframes = true;
-    renderOptions.hasBounds = true; // required for views to work
-    renderOptions.showDebug = false;
-    renderOptions.showBroadphase = true;
-    renderOptions.showBounds = false;
-    renderOptions.showVelocity = false;
-    renderOptions.showCollisions = false;
-    renderOptions.showAxes = false;
-    renderOptions.showPositions = false;
-    renderOptions.showAngleIndicator = false;
-    renderOptions.showIds = false;
-    renderOptions.showShadows = false;
-    renderOptions.showVertexNumbers = false;
-    renderOptions.showConvexHulls = false;
-    renderOptions.showInternalEdges = false;
-    renderOptions.showSeparations = false;
-    renderOptions.background = '#fff';
+    renderOptions.wireframes = false // <-- important
+    renderOptions.showBroadphase = false // boxes around everything thats near touching
+    renderOptions.hasBounds = true // required for views to work
+    renderOptions.showDebug = false
+    renderOptions.showBounds = false
+    renderOptions.showVelocity = false
+    renderOptions.showCollisions = false
+    renderOptions.showAxes = false
+    renderOptions.showPositions = false
+    renderOptions.showAngleIndicator = false
+    renderOptions.showIds = false
+    renderOptions.showShadows = false
+    renderOptions.showVertexNumbers = false
+    renderOptions.showConvexHulls = false
+    renderOptions.showInternalEdges = false
+    renderOptions.showSeparations = false
+    renderOptions.background = '#111'
   }
 };
 

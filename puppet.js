@@ -19,8 +19,16 @@ Puppet.init = function (options) {
     30, // radius
     {
       collisionFilter: {
-        group: options.teamId
-      }
+        group: 0,
+        mask: options.attackId, // may collide with
+        category: options.defendId // collision category
+      },
+      render: {
+        fillStyle: options.color,
+        lineWidth: 0
+      },
+      frictionAir: 0.2,
+      density: 0.0001
     }
   );
 

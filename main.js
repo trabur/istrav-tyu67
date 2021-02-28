@@ -94,7 +94,14 @@ TYU67.arena = function (game) {
             10, // radius
             {
               collisionFilter: {
-                group: player.tyu67.teamId
+                group: 0,
+                mask: player.tyu67.attackId, // may collide with
+                category: player.tyu67.defendId // collision category
+              },
+              render: {
+                strokeStyle: player.tyu67.color,
+                fillStyle: 'transparent',
+                lineWidth: 1
               },
               frictionAir: 0,
               force: Vector.rotate(
