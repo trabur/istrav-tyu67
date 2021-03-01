@@ -14,24 +14,39 @@ var MouseConstraint = Matter.MouseConstraint;
 
 let Game = {}
 
+let redColor = '#ff0000'
+let redTeamBullets = 0x0001
+let redTeamPlayers = 0x0002
+let redTeamBase = 0x0003
+
+let blueColor = '#0000ff'
+let blueTeamBullets = 0x0004
+let blueTeamPlayers = 0x0005
+let blueTeamBase = 0x0006
+
+let playerBoundry = 0x0007
+
+let aTeam = {
+  boundry: playerBoundry,
+  color: redColor,
+  base: redTeamBase,
+  players: redTeamPlayers,
+  bullets: redTeamBullets
+}
+
+let bTeam = {
+  boundry: playerBoundry,
+  color: blueColor,
+  base: blueTeamBase,
+  players: blueTeamPlayers,
+  bullets: blueTeamBullets
+}
+
+
 Game.create = function (id) {
   var defaults = {
     sceneEvents: []
   };
-
-  // teams
-  let redTeam = 0x0001
-  let blueTeam = 0x0002
-  // let greenTeam = 0x0004
-  // let purpleTeam = 0x0005
-  // let orangeTeam = 0x0006
-  // let yellowTeam = 0x0008
-  let redColor = '#ff0000'
-  let blueColor = '#0000ff'
-  // let greenColor = ''
-  // let purpleColor = ''
-  // let orangeColor = ''
-  // let yellowColor = ''
 
   // TODO: grab game from server based on id arguement
   var game = {
@@ -46,25 +61,22 @@ Game.create = function (id) {
         {
           id: 1,
           name: "alice",
-          attackId: blueTeam,
-          defendId: redTeam,
-          color: redColor,
-          position: {x: 200, y: 100} // from the top left pixel of the viewport
+          attack: aTeam,
+          defend: bTeam,
+          position: {x: 1500, y: 100} // from the top left pixel of the viewport
         },
         {
           id: 2,
           name: "bob",
-          attackId: blueTeam,
-          defendId: redTeam,
-          color: redColor,
+          attack: bTeam,
+          defend: aTeam,
           position: {x: 400, y: 400}
         },
         {
           id: 3,
           name: "carl",
-          attackId: redTeam,
-          defendId: blueTeam,
-          color: blueColor,
+          attack: aTeam,
+          defend: bTeam,
           position: {x: 600, y: 600}
         }
       ]
@@ -194,20 +206,61 @@ Game.reset = function (game) {
   /**
    * resources
    */
-
-  let opts = {
+  let boundryOpts = {
+    collisionFilter: {
+      group: 0,
+      mask: aTeam.players | bTeam.players,
+      category: aTeam.boundry | bTeam.boundry
+    },
     isStatic: true,
     render: {
       fillStyle: '#000',
-      lineWidth: 0
+      lineWidth: 1,
+      strokeStyle: 'white'
     }
   }
-  var offset = 500;
+  let stairsOpts = {
+    isStatic: true,
+    collisionFilter: {
+      group: 0,
+      mask: bTeam.players,
+      category: aTeam.base
+    },
+    render: {
+      fillStyle: '#000',
+      lineWidth: 1,
+      strokeStyle: 'red'
+    }
+  }
+  let opts = {
+    isStatic: true,
+    collisionFilter: {
+      group: 0,
+      mask: bTeam.players,
+      category: aTeam.base
+    },
+    render: {
+      fillStyle: '#000',
+      lineWidth: 4,
+      strokeStyle: 'red'
+    }
+  }
+  var offset = 200;
   World.add(world, [
-    Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 50.5, opts),
-    Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 50.5, opts),
-    Bodies.rectangle(800 + offset, 300, 50.5, 600.5 + 2 * offset, opts),
-    Bodies.rectangle(-offset, 300, 50.5, 600.5 + 2 * offset, opts)
+    // Bodies.rectangle(x, y, width, height, [options])
+    Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 200.5, opts), // top
+    Bodies.rectangle(400, 125 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
+    Bodies.rectangle(400, 160 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
+    Bodies.rectangle(400, 195 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
+    Bodies.rectangle(400, 200 -offset, 100.5 + 2 * offset, 25.5, boundryOpts), // boundry: top
+    Bodies.rectangle(800 + offset, 300, 200.5, 600.5 + 2 * offset, opts), // right
+    Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 200.5, opts), // bottom
+    Bodies.rectangle(-offset, 300, 200.5, 600.5 + 2 * offset, opts), // left
+    // Bodies.circle(x, y, radius, [options], [maxSides])
+    Bodies.polygon(-offset, -offset, 4, 200, opts), // top left
+    Bodies.polygon(offset + 800, -offset, 4, 200, opts), // top right
+    Bodies.polygon(offset + 800, offset + 600, 4, 200, opts), // bottom right
+    Bodies.polygon(-offset, offset + 600, 4, 200, opts), // bottom left
   ]);
 
   // World.addComposite(

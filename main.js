@@ -95,11 +95,11 @@ TYU67.arena = function (game) {
             {
               collisionFilter: {
                 group: 0,
-                mask: player.tyu67.attackId, // may collide with
-                category: player.tyu67.defendId // collision category
+                mask: player.tyu67.attack.players | player.tyu67.attack.base | player.tyu67.attack.bullets, // may collide with
+                category: player.tyu67.defend.bullets // collision category
               },
               render: {
-                strokeStyle: player.tyu67.color,
+                strokeStyle: player.tyu67.defend.color,
                 fillStyle: 'transparent',
                 lineWidth: 1
               },

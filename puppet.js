@@ -20,11 +20,11 @@ Puppet.init = function (options) {
     {
       collisionFilter: {
         group: 0,
-        mask: options.attackId, // may collide with
-        category: options.defendId // collision category
+        mask: options.attack.bullets | options.attack.players | options.attack.base, // may collide with
+        category: options.defend.players // collision category
       },
       render: {
-        fillStyle: options.color,
+        fillStyle: options.defend.color,
         lineWidth: 0
       },
       frictionAir: 0.2,
