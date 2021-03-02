@@ -1,9 +1,9 @@
 import Puppet from './puppet.js'
 import TYU67 from './main.js'
+import * as maps from './maps/index.js'
 
 var World = Matter.World;
 var Body = Matter.Body;
-var Bodies = Matter.Bodies;
 var Constraint = Matter.Constraint;
 var Engine = Matter.Engine;
 var Common = Matter.Common;
@@ -204,74 +204,11 @@ Game.reset = function (game) {
   };
 
   /**
-   * resources
+   * arena
    */
-  let boundryOpts = {
-    collisionFilter: {
-      group: 0,
-      mask: aTeam.players | bTeam.players,
-      category: aTeam.boundry | bTeam.boundry
-    },
-    isStatic: true,
-    render: {
-      fillStyle: '#000',
-      lineWidth: 1,
-      strokeStyle: 'white'
-    }
-  }
-  let stairsOpts = {
-    isStatic: true,
-    collisionFilter: {
-      group: 0,
-      mask: bTeam.players,
-      category: aTeam.base
-    },
-    render: {
-      fillStyle: '#000',
-      lineWidth: 1,
-      strokeStyle: 'red'
-    }
-  }
-  let opts = {
-    isStatic: true,
-    collisionFilter: {
-      group: 0,
-      mask: bTeam.players,
-      category: aTeam.base
-    },
-    render: {
-      fillStyle: '#000',
-      lineWidth: 4,
-      strokeStyle: 'red'
-    }
-  }
-  var offset = 200;
-  World.add(world, [
-    // Bodies.rectangle(x, y, width, height, [options])
-    Bodies.rectangle(400, -offset, 800.5 + 2 * offset, 200.5, opts), // top
-    Bodies.rectangle(400, 125 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
-    Bodies.rectangle(400, 160 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
-    Bodies.rectangle(400, 195 -offset, 100.5 + 2 * offset, 25.5, stairsOpts), // top stairs
-    Bodies.rectangle(400, 200 -offset, 100.5 + 2 * offset, 25.5, boundryOpts), // boundry: top
-    Bodies.rectangle(800 + offset, 300, 200.5, 600.5 + 2 * offset, opts), // right
-    Bodies.rectangle(400, 600 + offset, 800.5 + 2 * offset, 200.5, opts), // bottom
-    Bodies.rectangle(-offset, 300, 200.5, 600.5 + 2 * offset, opts), // left
-    // Bodies.circle(x, y, radius, [options], [maxSides])
-    Bodies.polygon(-offset, -offset, 4, 200, opts), // top left
-    Bodies.polygon(offset + 800, -offset, 4, 200, opts), // top right
-    Bodies.polygon(offset + 800, offset + 600, 4, 200, opts), // bottom right
-    Bodies.polygon(-offset, offset + 600, 4, 200, opts), // bottom left
-  ]);
-
-  // World.addComposite(
-  //   world,
-  //   Composites.softBody(
-  //     500, 0, // x, y
-  //     200, 2, // colms, rows
-  //     5, 150, // columnGap, rowGap
-  //     1, 25// crossBrace, particleRadius
-  //   )
-  // )
+  // maps.base(x, y, offset, defense, offense)
+  maps.base(0, 0, 200, world, aTeam, bTeam)
+  maps.base(2000, 0, 200, world, bTeam, aTeam)
 
   /**
    * participants
