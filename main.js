@@ -66,12 +66,12 @@ TYU67.arena = function (game) {
         // console.log("tick");
 
         // player rotation
-        Body.setAngle(player.parts[0], player.rotation + (Math.PI/180) * 90);
+        Body.setAngle(player.bodies[0], player.rotation + (Math.PI/180) * 90);
 
         // player movement
         Body.applyForce(
-          player.parts[0],
-          player.parts[0].position,
+          player.bodies[0],
+          player.bodies[0].position,
           (function () {
             var move = player.movement;
             var x = 0;
@@ -109,7 +109,7 @@ TYU67.arena = function (game) {
                   x: 0.0,
                   y: 0.02 // bullet speed
                 },
-                player.parts[0].angle
+                player.bodies[0].angle
               )
             }
           );
