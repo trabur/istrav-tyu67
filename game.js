@@ -63,21 +63,21 @@ Game.create = function (id) {
           name: "alice",
           attack: aTeam,
           defend: bTeam,
-          position: {x: 1500, y: 100} // from the top left pixel of the viewport
+          position: {x: 400, y: 400} // from the top left pixel of the viewport
         },
         {
           id: 2,
           name: "bob",
           attack: bTeam,
           defend: aTeam,
-          position: {x: 400, y: 400}
+          position: {x: 300, y: 400}
         },
         {
           id: 3,
           name: "carl",
           attack: aTeam,
           defend: bTeam,
-          position: {x: 600, y: 600}
+          position: {x: 500, y: 400}
         }
       ]
     }
@@ -207,8 +207,23 @@ Game.reset = function (game) {
    * arena
    */
   // maps.base(x, y, offset, defense, offense)
-  maps.base(0, 0, 200, world, aTeam, bTeam)
-  maps.base(2000, 0, 200, world, bTeam, aTeam)
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString)
+  const playerId = urlParams.get('playerId')
+  const gametypeId = urlParams.get('gametypeId')
+  const mapId = urlParams.get('mapId')
+  const channelId = urlParams.get('channelId')
+  const teamId = urlParams.get('teamId')
+  if (!playerId) {
+    // start menu
+    maps.base(0, 0, 200, world, aTeam, bTeam)
+    maps.text(400, 200, 'TYU67 GAME', '42pt', world)
+    maps.text(400, 250, '2D Battle Royale FPS & RTS', '20pt', world)
+  } else {
+    // start map
+    maps.base(0, 0, 200, world, aTeam, bTeam)
+    maps.base(2000, 0, 200, world, bTeam, aTeam)
+  }
 
   /**
    * participants

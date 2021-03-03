@@ -1,5 +1,34 @@
 var World = Matter.World;
 var Bodies = Matter.Bodies;
+import createImage from '../helpers/createImage.js'
+
+export let text = (x, y, value, fontSize, world) => {
+  World.add(world, [Bodies.circle(
+    x,
+    y,
+    50, // radius
+    {
+      collisionFilter: {
+        group: -1,
+        mask: null,
+        category: null
+      },
+      render: {
+        fillStyle: 'transparent',
+        lineWidth: 0,
+        sprite: {
+          texture: createImage(value, 500, 100, fontSize),
+          xScale: 1,
+          yScale: 1
+        }      
+      },
+      isStatic: true,
+      frictionAir: 0.0,
+      density: 0.00001,
+      inertia: Infinity
+    }
+  )])
+}
 
 export let base = (x, y, offset, world, defense, offense) => {
   let boundryOpts = {
@@ -45,10 +74,10 @@ export let base = (x, y, offset, world, defense, offense) => {
   World.add(world, [
     // Bodies.rectangle(x, y, width, height, [options])
     Bodies.rectangle(x + 400,          y + -offset,      800.5 + 2 * offset, 200.5,              opts),        // top
-    Bodies.rectangle(x + 400,          y + 125 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
-    Bodies.rectangle(x + 400,          y + 160 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
-    Bodies.rectangle(x + 400,          y + 195 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
-    Bodies.rectangle(x + 400,          y + 200 -offset,  100.5 + 2 * offset, 25.5,               boundryOpts), // boundry: top
+    // Bodies.rectangle(x + 400,          y + 125 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
+    // Bodies.rectangle(x + 400,          y + 160 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
+    // Bodies.rectangle(x + 400,          y + 195 -offset,  100.5 + 2 * offset, 25.5,               stairsOpts),  // top stairs
+    // Bodies.rectangle(x + 400,          y + 200 -offset,  100.5 + 2 * offset, 25.5,               boundryOpts), // boundry: top
     Bodies.rectangle(x + 800 + offset, y + 300,          200.5,              600.5 + 2 * offset, opts),        // right
     Bodies.rectangle(x + 400,          y + 600 + offset, 800.5 + 2 * offset, 200.5,              opts),        // bottom
     Bodies.rectangle(x + -offset,      y + 300,          200.5,              600.5 + 2 * offset, opts),        // left
