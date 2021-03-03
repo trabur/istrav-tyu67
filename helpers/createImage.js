@@ -15,7 +15,7 @@ export default function createImage(string, width, height, fontSize) {
   ctx.closePath();
   ctx.fill();
   ctx.fillStyle = "#fff";
-  ctx.font = `${fontSize || '20pt'} sans-serif`;
+  ctx.font = `${fontSize || '20pt'} arial`;
   ctx.textAlign = "center";
   ctx.fillText(string, drawing.width / 2, 85);
   // ctx.strokeText("Canvas Rocks!", 5, 130);
